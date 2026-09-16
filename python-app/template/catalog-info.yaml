@@ -1,12 +1,15 @@
 apiVersion: backstage.io/v1alpha1
 kind: Component
 metadata:
-  name: ${{values.app_name}}
-  description: Python app that displays the time, named ${{values.app_name}}
+  name: ${{ values.app_name }}
+  title: ${{ values.app_name }}
+  description: Python app for the ${{ values.app_env }} environment
+  labels:
+    environment: ${{ values.app_env }}
   annotations:
-    github.com/project-slug: ehazan/${{values.app_name}}
+    github.com/project-slug: ehazan/${{ values.app_name }}
 
 spec:
   type: service
-  owner: development
+  owner: user:default/ehazan
   lifecycle: experimental
