@@ -8,7 +8,7 @@ metadata:
   description: Creates and publishes a Python application to GitHub
 
 spec:
-  owner: user:default/ehazan
+  owner: user:default/backstage-ehazan
   type: service
 
   parameters:
