@@ -69,6 +69,7 @@ spec:
         description: Python application ${{ parameters.app_name }}
         defaultBranch: main
         repoVisibility: public
+        protectDefaultBranch: false
 
     - id: register
       name: Register in Backstage
