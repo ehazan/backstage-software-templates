@@ -78,6 +78,17 @@ jobs:
 
           "$RUNNER_TEMP/argocd" version --client
 
+      - name: Log in to Argo CD
+        shell: bash
+        env:
+          ARGOCD_PASSWORD: ${{ '${{ secrets.ARGOCD_PASSWORD }}' }}
+        run: |
+          argocd login localhost:8181 \
+            --insecure \
+            --grpc-web \
+            --username admin \
+            --password "$ARGOCD_PASSWORD"
+
       - name: Ensure argocd repo and app
         shell: bash
         run: |
@@ -99,10 +110,6 @@ jobs:
       - name: Argo cd app sync
         shell: bash
         run: |
-          argocd login argocd-server.argocd \
-            --insecure \
-            --grpc-web \
-            --username admin --password ${{ '${{ secrets.ARGOCD_PASSWORD }}' }}
           argocd app sync ${{values.app_name}}
           # the command above is async, so we don't know if it failed, for that we need the command below
           argocd app wait ${{values.app_name}} --timeout 180 
