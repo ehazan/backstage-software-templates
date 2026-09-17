@@ -73,6 +73,25 @@ jobs:
           echo "$RUNNER_TEMP" >> "$GITHUB_PATH"
 
           "$RUNNER_TEMP/argocd" version --client
+
+      - name: Ensure argocd repo and app
+        shell: bash
+        run: |
+          # Connects the argocd repo
+          repo="https://github.com/backstage-ehazan/${{values.app_name}}.git"
+          argocd repo list | grep -q $repo || argocd repo add $repo
+
+          # Creates the argocd app
+          argocd app get ${{values.app_name}} || argocd app create ${{values.app_name}} \
+            --repo $repo \
+            --path charts/${{values.app_name}} \
+            --dest-namespace ${{values.app_env}} \
+            --dest-server https://kubernetes.default.svc \
+            --values values-${{values.app_env}}.yaml \
+            --revision main \
+            --sync-policy manual \
+            --sync-option CreateNamespace=true
+          
       - name: Argo cd app sync
         shell: bash
         run: |
@@ -81,3 +100,5 @@ jobs:
             --grpc-web \
             --username admin --password ${{ '${{ secrets.ARGOCD_PASSWORD }}' }}
           argocd app sync ${{values.app_name}}
+          # the command above is async, so we don't know if it failed, for that we need the command below
+          argocd app wait ${{values.app_name}} --timeout 180 
