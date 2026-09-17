@@ -78,16 +78,14 @@ jobs:
 
           "$RUNNER_TEMP/argocd" version --client
 
-      - name: Log in to Argo CD
+      - name: argocd login
         shell: bash
-        env:
-          ARGOCD_PASSWORD: ${{ '${{ secrets.ARGOCD_PASSWORD }}' }}
         run: |
-          argocd login localhost:8181 \
-            --insecure \
+          argocd login argocd-server.argocd \
+            --insecure  \
             --grpc-web \
             --username admin \
-            --password "$ARGOCD_PASSWORD"
+            --password  ${{ '${{ secrets.ARGOCD_PASSWORD }}' }}
 
       - name: Ensure argocd repo and app
         shell: bash
