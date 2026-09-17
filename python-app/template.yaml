@@ -68,7 +68,7 @@ spec:
         repoUrl: ${{ parameters.repoUrl }}
         description: Python application ${{ parameters.app_name }}
         defaultBranch: main
-        repoVisibility: private
+        repoVisibility: public
 
     - id: register
       name: Register in Backstage
