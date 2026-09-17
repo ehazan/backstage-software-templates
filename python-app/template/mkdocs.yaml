@@ -1,6 +1,6 @@
 site_name: ${{values.app_name}}
 site_description: 'Main documentation for the ${{values.app_name}}'
-repo_url: https://github.com/ehazan/${{values.app_name}}
+repo_url: https://github.com/${{ values.repo_owner }}/${{ values.repo_name }}
 edit_uri: edit/main/docs
 
 plugins:

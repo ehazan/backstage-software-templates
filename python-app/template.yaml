@@ -60,6 +60,8 @@ spec:
         values:
           app_name: ${{ parameters.app_name }}
           app_env: ${{ parameters.app_env }}
+          repo_owner: ${{ (parameters.repoUrl | parseRepoUrl).owner }}
+          repo_name: ${{ (parameters.repoUrl | parseRepoUrl).repo }}
 
     - id: publish
       name: Publish
